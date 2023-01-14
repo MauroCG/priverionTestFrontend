@@ -1,25 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import { ConfigProvider, theme } from "antd";
+import Admin from "./components/Admin";
 
-function App() {
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ConfigProvider
+      theme={{
+        //algorithm: theme.darkAlgorithm,
+        token: {
+          //colorPrimary: "#00b96b",
+        },
+      }}
+    >
+      <Admin />
+    </ConfigProvider>
   );
-}
+};
 
 export default App;
