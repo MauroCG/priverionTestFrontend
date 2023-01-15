@@ -1,7 +1,7 @@
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Card, Button, Space, Popconfirm } from "antd";
-import { useState } from "react";
-import { deletePet } from "../utils/pet.utils";
+import { useEffect, useState } from "react";
+import { createOrUpdatePet, deletePet } from "../utils/pet.utils";
 import ConfirmationModal from "./ConfirmationModal";
 
 const { Meta } = Card;
@@ -9,12 +9,44 @@ const { Meta } = Card;
 const Pet = ({ pet_id, name, photo }) => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [editFields, setEditFields] = useState({});
 
   const deletePetHandler = () => {
     //console.log("Deleting pet", pet_id);
     deletePet(pet_id);
     setOpenDeleteModal(true);
+  };
+
+  const editFieldsCallback = (values) => {
+    if (values) {
+        createOrUpdatePet(values);
+    }
+    setOpenEditModal(false);
   }
+
+  const openEditModalHandler = () => {
+    setOpenEditModal(true);
+  }
+
+  useEffect(() => {
+    if (pet_id) {
+        setEditFields({
+            "id": {
+                value: pet_id
+            },
+            "name": {
+                label: "Name of your pet",
+                value: name
+            },
+            "photo": {
+                label: "Photo of your pet",
+                value: photo,
+                type: "file"
+            }
+        });
+    }
+  }, [pet_id, name, photo]);
+
 
   return (
     <>
@@ -23,34 +55,25 @@ const Pet = ({ pet_id, name, photo }) => {
         style={{
           width: 240,
         }}
-        cover={
-          <img
-            alt="pet_photo"
-            src={
-              photo
-                ? photo
-                : "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-            }
-          />
-        }
+        cover={<img alt="pet_photo" src={photo} style={{height: '300px'}} />}
       >
         <Space direction="vertical">
           <Meta title={name} style={{ textAlign: "center" }} />
           <Space>
-            <Button shape="round" icon={<EditOutlined />}>
+            <Button shape="round" icon={<EditOutlined />} onClick={openEditModalHandler}>
               Edit
             </Button>
             <Popconfirm
-                title="Delete pet"
-                description="Are you sure to delete this pet?"
-                okText="Yes"
-                cancelText="No"
-                onConfirm={deletePetHandler}
-                onCancel={null}
+              title="Delete pet"
+              description="Are you sure to delete this pet?"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={deletePetHandler}
+              onCancel={null}
             >
-                <Button shape="round" icon={<DeleteOutlined />} danger>
+              <Button shape="round" icon={<DeleteOutlined />} danger>
                 Delete
-                </Button>
+              </Button>
             </Popconfirm>
           </Space>
         </Space>
@@ -59,6 +82,8 @@ const Pet = ({ pet_id, name, photo }) => {
         showModal={openEditModal}
         setShowModal={setOpenEditModal}
         title="Edit information of your pet"
+        fields={editFields}
+        callback={editFieldsCallback}
       />
       <ConfirmationModal
         showModal={openDeleteModal}

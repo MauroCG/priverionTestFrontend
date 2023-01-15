@@ -48,6 +48,7 @@ const Pets = ({ pets }) => {
                 <Pet
                   pet_id={pet.id}
                   name={pet.name}
+                  photo={pet.photo}
                 />
               </Col>
             )

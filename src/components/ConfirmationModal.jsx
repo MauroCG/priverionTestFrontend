@@ -90,6 +90,11 @@ const ConfirmationModal = ({
                           listType="picture-card"
                           maxCount={1}
                           beforeUpload={() => false}
+                          fileList={
+                            fields[key].value
+                              ? [{status: "done", url: fields[key].value}]
+                              : []
+                          }
                         >
                           <div>
                             <PlusOutlined />
