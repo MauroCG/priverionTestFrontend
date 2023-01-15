@@ -7,6 +7,7 @@ const App = () => {
     <ConfigProvider
       theme={{
         //algorithm: theme.darkAlgorithm,
+        algorithm: theme.defaultAlgorithm,
         token: {
           //colorPrimary: "#00b96b",
         },

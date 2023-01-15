@@ -1,73 +1,79 @@
-import { FileOutlined, PieChartOutlined, UserOutlined, DesktopOutlined, TeamOutlined } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { HomeOutlined, GithubOutlined } from "@ant-design/icons";
+import { Layout, Menu, theme, Typography } from "antd";
+import Pets from "./Pets";
+import { useState } from "react";
 
 const { Header, Content, Footer, Sider } = Layout;
-function getItem(label, key, icon, children) {
+const { Title } = Typography;
+
+const getItem = (label, key, icon, children) => {
   return {
     key,
     icon,
     children,
     label,
   };
-}
+};
 
 const items = [
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
-  ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
+  getItem("Home", "home", <HomeOutlined />),
+  getItem("My pets", "pets", <GithubOutlined />),
 ];
 
+const menuOptionsChildren = {
+  home: <h2>Home</h2>,
+  pets: <Pets />,
+};
 
 const Admin = () => {
+  const [currentMenuOption, setCurrentMenuOption] = useState("home");
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  const changeCurrentMenuOption = (option) => {
+    //console.log("the current select option is", option);
+    setCurrentMenuOption(option.key);
+  }
+
   return (
     <Layout
       style={{
-        minHeight: '100vh',
+        minHeight: "100vh",
       }}
     >
-      <Sider 
-        collapsible 
-        breakpoint='md'
-      >
+      <Sider collapsible breakpoint="md">
         <div
           style={{
             height: 32,
             margin: 16,
-            background: 'rgba(255, 255, 255, 0.2)',
+            background: "rgba(255, 255, 255, 0.2)",
           }}
         />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        <Menu 
+          theme="dark" 
+          mode="inline" 
+          items={items}
+          onClick={changeCurrentMenuOption}
+        />
       </Sider>
-      <Layout className="site-layout">
-        <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        />
-        <Content
-          style={{
-            margin: '0 16px',
-          }}
-        >
-          <Breadcrumb
+      <Layout>
+        <Header>
+          <Title
+            level={1}
             style={{
-              margin: '16px 0',
+              color: "white",
+              lineHeight: 0,
             }}
           >
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
+            Priverion New Prospects Test
+          </Title>
+        </Header>
+        <Content
+          style={{
+            margin: "0 16px",
+          }}
+        >
           <div
             style={{
               padding: 24,
@@ -75,15 +81,17 @@ const Admin = () => {
               background: colorBgContainer,
             }}
           >
-            Bill is a cat.
+            {
+              menuOptionsChildren[currentMenuOption]
+            }
           </div>
         </Content>
         <Footer
           style={{
-            textAlign: 'center',
+            textAlign: "center",
           }}
         >
-          Ant Design ©2023 Created by Ant UED
+          Priverion New Prospects Test ©2023
         </Footer>
       </Layout>
     </Layout>
