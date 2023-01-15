@@ -1,0 +1,11 @@
+h1.main_title {
+    color: white;
+    line-height: 0;
+}
+
+@media screen and (max-width: 600px) {
+    h1.main_title {
+        font-size: 16px;
+        word-break: break-all;
+    }
+}

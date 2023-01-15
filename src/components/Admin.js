@@ -1,8 +1,10 @@
 import { HomeOutlined, GithubOutlined } from "@ant-design/icons";
 import { Layout, Menu, theme, Typography } from "antd";
+import Home from "./Home";
 import Pets from "./Pets";
 import { useEffect, useState } from "react";
 import { getPets } from "../utils/pet.utils";
+import "./Admin.css";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Title } = Typography;
@@ -35,7 +37,7 @@ const Admin = () => {
   }
 
   const menuOptionsChildren = {
-    home: <h2>Home</h2>,
+    home: <Home pets={pets} />,
     pets: <Pets pets={pets} />,
   };
 
@@ -65,6 +67,7 @@ const Admin = () => {
           theme="dark" 
           mode="inline" 
           items={items}
+          defaultSelectedKeys={["home"]}
           onClick={changeCurrentMenuOption}
         />
       </Sider>
@@ -72,10 +75,7 @@ const Admin = () => {
         <Header>
           <Title
             level={1}
-            style={{
-              color: "white",
-              lineHeight: 0,
-            }}
+            className="main_title"
           >
             Priverion New Prospects Test
           </Title>

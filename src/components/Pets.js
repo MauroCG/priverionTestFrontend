@@ -1,9 +1,11 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Row, Col, Button, Divider } from "antd";
+import { Row, Col, Button, Divider, Typography } from "antd";
 import { useState } from "react";
 import { createOrUpdatePet } from "../utils/pet.utils";
 import ConfirmationModal from "./ConfirmationModal";
 import Pet from "./Pet";
+
+const { Title } = Typography;
 
 
 const Pets = ({ pets }) => {
@@ -32,6 +34,12 @@ const Pets = ({ pets }) => {
 
   return (
     <>
+      <Row>
+        <Col>
+          <Title level={2}>Manage pets data</Title>
+        </Col>
+      </Row>
+      <Divider />
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
         <Col>
           <Button type="primary" shape="round" onClick={handleShowNewPetModal} icon={<PlusOutlined />}>
