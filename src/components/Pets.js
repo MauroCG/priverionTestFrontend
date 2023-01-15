@@ -1,11 +1,12 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Row, Col, Button } from "antd";
+import { Row, Col, Button, Divider } from "antd";
 import { useState } from "react";
 import { createOrUpdatePet } from "../utils/pet.utils";
 import ConfirmationModal from "./ConfirmationModal";
+import Pet from "./Pet";
 
 
-const Pets = () => {
+const Pets = ({ pets }) => {
   const [ newPetModal, setNewPetModal ] = useState(false);
 
   const newPetFields = {
@@ -37,6 +38,21 @@ const Pets = () => {
             Add new pet
           </Button>
         </Col>
+      </Row>
+      <Divider />
+      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+        {
+          pets.map((pet, index) => {
+            return (
+              <Col flex="0 1 350px" key={index+1}>
+                <Pet
+                  pet_id={pet.id}
+                  name={pet.name}
+                />
+              </Col>
+            )
+          })
+        }
       </Row>
       <ConfirmationModal
         title="Add a new pet"

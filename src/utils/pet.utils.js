@@ -25,7 +25,8 @@ export const getPets = async (id = '') => {
 }
 
 export const deletePet = async (id) => {
-    await fetch(`${baseApiUrl}pet/{id}`, {
+    //console.log(`${baseApiUrl}pet/${id}`);
+    await fetch(`${baseApiUrl}pet/${id}`, {
         method: 'DELETE'
     })
 }

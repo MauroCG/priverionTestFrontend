@@ -1,7 +1,8 @@
 import { HomeOutlined, GithubOutlined } from "@ant-design/icons";
 import { Layout, Menu, theme, Typography } from "antd";
 import Pets from "./Pets";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getPets } from "../utils/pet.utils";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Title } = Typography;
@@ -20,13 +21,10 @@ const items = [
   getItem("My pets", "pets", <GithubOutlined />),
 ];
 
-const menuOptionsChildren = {
-  home: <h2>Home</h2>,
-  pets: <Pets />,
-};
 
 const Admin = () => {
   const [currentMenuOption, setCurrentMenuOption] = useState("home");
+  const [pets, setPets] = useState([]);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -35,6 +33,19 @@ const Admin = () => {
     //console.log("the current select option is", option);
     setCurrentMenuOption(option.key);
   }
+
+  const menuOptionsChildren = {
+    home: <h2>Home</h2>,
+    pets: <Pets pets={pets} />,
+  };
+
+  useEffect(() => {
+    getPets()
+      .then(pets => {
+        setPets(pets);
+      })
+  }, []);
+
 
   return (
     <Layout
