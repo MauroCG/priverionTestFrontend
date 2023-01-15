@@ -1,6 +1,7 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Row, Col, Button } from "antd";
 import { useState } from "react";
+import { createOrUpdatePet } from "../utils/pet.utils";
 import ConfirmationModal from "./ConfirmationModal";
 
 
@@ -22,6 +23,11 @@ const Pets = () => {
     setNewPetModal(true);
   }
 
+  const handleCreateOrUpdatePet = (values) => {
+    createOrUpdatePet(values);
+    setNewPetModal(false);
+  }
+
 
   return (
     <>
@@ -37,7 +43,7 @@ const Pets = () => {
         showModal={newPetModal}
         setShowModal={setNewPetModal}
         fields={newPetFields}
-        callback={(values) => console.log(values)}
+        callback={handleCreateOrUpdatePet}
       />
     </>
   );
