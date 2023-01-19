@@ -1,5 +1,5 @@
 import { HomeOutlined, GithubOutlined } from "@ant-design/icons";
-import { Layout, Menu, theme, Typography } from "antd";
+import { Layout, Menu, Row, Col, Switch, theme, Typography, Space } from "antd";
 import Home from "./Home";
 import Pets from "./Pets";
 import { useEffect, useState } from "react";
@@ -23,8 +23,7 @@ const items = [
   getItem("My pets", "pets", <GithubOutlined />),
 ];
 
-
-const Admin = () => {
+const Admin = ({ setDarkTheme }) => {
   const [currentMenuOption, setCurrentMenuOption] = useState("home");
   const [pets, setPets] = useState([]);
   const {
@@ -34,20 +33,23 @@ const Admin = () => {
   const changeCurrentMenuOption = (option) => {
     //console.log("the current select option is", option);
     setCurrentMenuOption(option.key);
-  }
+  };
 
   const menuOptionsChildren = {
     home: <Home pets={pets} />,
     pets: <Pets pets={pets} />,
   };
 
-  useEffect(() => {
-    getPets()
-      .then(pets => {
-        setPets(pets);
-      })
-  }, []);
+  const changeToDarkTheme = (checked) => {
+    // console.log("Switch", checked);
+    setDarkTheme(checked);
+  };
 
+  useEffect(() => {
+    getPets().then((pets) => {
+      setPets(pets);
+    });
+  }, []);
 
   return (
     <Layout
@@ -63,9 +65,9 @@ const Admin = () => {
             background: "rgba(255, 255, 255, 0.2)",
           }}
         />
-        <Menu 
-          theme="dark" 
-          mode="inline" 
+        <Menu
+          theme="dark"
+          mode="inline"
           items={items}
           defaultSelectedKeys={["home"]}
           onClick={changeCurrentMenuOption}
@@ -73,10 +75,7 @@ const Admin = () => {
       </Sider>
       <Layout>
         <Header>
-          <Title
-            level={1}
-            className="main_title"
-          >
+          <Title level={1} className="main_title">
             Priverion New Prospects Test
           </Title>
         </Header>
@@ -85,6 +84,15 @@ const Admin = () => {
             margin: "0 16px",
           }}
         >
+          <Space style={{width: "100%", margin: "10px", justifyContent: "end"}}>
+            <Title
+              style={{ lineHeight: 0, margin: 0 }}
+              level={4}
+            >
+              Modo oscuro:
+            </Title>
+            <Switch onChange={changeToDarkTheme} />
+          </Space>
           <div
             style={{
               padding: 24,
@@ -92,9 +100,7 @@ const Admin = () => {
               background: colorBgContainer,
             }}
           >
-            {
-              menuOptionsChildren[currentMenuOption]
-            }
+            {menuOptionsChildren[currentMenuOption]}
           </div>
         </Content>
         <Footer
